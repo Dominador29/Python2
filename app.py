@@ -1,11 +1,10 @@
 """
-IP Address Information Web API
 Project Activity 4 - THE DREAM TEAM
-Enhanced with REST API endpoints and automated testing support
+Members: Jade Lloyd de Lara, Carlos Alfonso Perez, Maverick Angelo Sibal, John Rafael Villacorte
 
 Version: 2.0.0
 Team: THE DREAM TEAM
-Date: November 2024
+Date: November 30, 2025
 """
 
 from flask import Flask, jsonify, request
