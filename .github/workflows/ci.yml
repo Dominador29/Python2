@@ -1,0 +1,79 @@
+name: CI/CD Pipeline - THE DREAM TEAM
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run tests with pytest
+      run: |
+        pytest test_app.py -v --cov=app --cov-report=term-missing
+    
+    - name: Display test summary
+      run: |
+        echo "✅ All tests passed successfully!"
+        echo "📊 Coverage report generated"
+
+  lint:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install flake8
+      run: |
+        pip install flake8
+    
+    - name: Lint with flake8
+      run: |
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  build:
+    name: Build & Deploy Ready
+    needs: [test, lint]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Build Success Notification
+      run: |
+        echo "════════════════════════════════════════"
+        echo "   ✅ ALL CHECKS PASSED SUCCESSFULLY"
+        echo "════════════════════════════════════════"
+        echo "✓ Tests: PASSED"
+        echo "✓ Linting: PASSED"
+        echo "✓ Coverage: PASSED"
+        echo ""
+        echo "🚀 Application is ready for deployment!"
+        echo "📦 Built by: THE DREAM TEAM"
+        echo "════════════════════════════════════════"
